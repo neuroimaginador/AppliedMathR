@@ -1,0 +1,13 @@
+Package: AppliedMathR
+Type: Package
+Title: Routines for Applied Mathematics subjects
+Version: 0.1.0
+Author: Varios
+Maintainer: Domingo López <dominlopez@uma.es>
+Description: Routines for Applied Mathematics subjects developed at University of Málaga. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
+RoxygenNote: 7.0.1.9000
