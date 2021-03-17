@@ -279,11 +279,11 @@ str_alternate <- function(str1, str2) {
 #' @export
 glue_latex <- function(...) {
 
-  glue::glue("$$",
-             ...,
-             "$$",
+  c("\\[",
+    glue::glue(...,
              .open = "[", .close = "]",
-             .sep = "")
+             .sep = ""),
+    "\\]")
 
 }
 

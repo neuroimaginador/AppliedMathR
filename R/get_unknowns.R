@@ -3,7 +3,7 @@ get_unknowns <- function(m, latex = FALSE) {
 
   unks <- c("x", "y", "z", "t", "u", "v", "w")
 
-  if (n <= 7) {
+  if (m <= 7) {
 
     unks <- unks[1:m]
 

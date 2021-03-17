@@ -285,13 +285,24 @@ write_system <- function(A, b,
 
   } else {
 
-    if (!latex) {
+    if (fractions) {
 
-      rhs <- paste0(" = ", b)
+      b_chr <- to_fraction(b, latex = latex)
 
     } else {
 
-      rhs <- paste0(" & = & ", b)
+      b_chr <- matrix(as.character(b),
+                      ncol = m, nrow = n)
+
+    }
+
+    if (!latex) {
+
+      rhs <- paste0(" = ", b_chr)
+
+    } else {
+
+      rhs <- paste0(" & = & ", b_chr)
 
     }
 
