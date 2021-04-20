@@ -28,7 +28,7 @@ gauss_elimination <- function(...,
   ind <- seq(n)
 
   step <- list(split_matrix(C, ncols))
-  msg <- "Initial matrix"
+  msg <- ""#Initial matrix"
 
   max_iter <- min(c(m, n))
   row <- 1
@@ -55,7 +55,7 @@ gauss_elimination <- function(...,
 
       step <- append(step, list(split_matrix(C, ncols)))
       msg <- append(msg,
-                    glue::glue("Permute rows {row} and {ii}."))
+                    glue::glue("{permute_msg()} {rows_msg()} {row} {and_msg()} {ii}."))
 
       ind_rows[c(row, ii)] <- ind_rows[c(ii, row)]
 
@@ -73,7 +73,7 @@ gauss_elimination <- function(...,
 
       step <- append(step, list(split_matrix(C, ncols)))
       msg <- append(msg,
-                    glue::glue("Permute columns {pivot_col} and {jj}."))
+                    glue::glue("{permute_msg()} {columns_msg()} {pivot_col} {and_msg()} {jj}."))
 
       jj <- pivot_col
 
@@ -83,7 +83,7 @@ gauss_elimination <- function(...,
 
 
       msg <- append(msg,
-                    glue::glue("Divide row {row} by {fractional(C[row, pivot_col])}."))
+                    glue::glue("{divide_msg()} {rows_msg(FALSE)} {row} {by_msg()} {fractional(C[row, pivot_col])}."))
 
       # C[k, ] <- (C[k, ] / C[k, k]) %>% as_r()
       C[row, ] <- (C[row, ] / C[row, jj])
@@ -108,7 +108,7 @@ gauss_elimination <- function(...,
 
           step <- append(step, list(split_matrix(C, ncols)))
           msg <- append(msg,
-                        glue::glue("Multiply row {row} by {(-fractional(coef))} and add to row {l}."))
+                        glue::glue("{multiply_msg()} {rows_msg(FALSE)} {row} {by_msg()} {(-fractional(coef))} {and_msg()} {add_msg()} {to_msg()} {rows_msg(FALSE)} {l}."))
 
         }
 
@@ -132,6 +132,8 @@ gauss_elimination <- function(...,
   }
 
   splits <- split_matrix(C, ncols)
+
+  msg <- stringr::str_to_sentence(msg)
 
   elimination <- list(step = step,
                       ind = ind,
@@ -267,12 +269,16 @@ to_latex.elimination <- function(x, ...) {
   steps <- x$step
   msg <- x$msg
 
+  res <- c()
+
   for (i in seq_along(steps)) {
 
     cat(msg[i], "\n")
 
     # to_latex(steps[[i]], fractions = TRUE)
+    cat("\\[")
     glue_matrices(steps[[i]], latex = TRUE) %>% cat()
+    cat("\\]")
     # print(steps[[i]])
     cat("\n")
 

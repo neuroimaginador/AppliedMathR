@@ -1,17 +1,13 @@
 #' @export
-newton <- function(F, DF, x0, n = 10, TOL = 1.e-5) {
+newton <- function(f, df, x0, n = 10, TOL = 1.e-5) {
 
     x <- x0
 
-    e <- 1
+    for (k in seq(n)) {
 
+        Fx <- f(x)
 
-    for (k in 1:n) {
-
-        Fx <- feval(F, x)
-
-        DFx <- feval(DF, x)
-
+        DFx <- df(x)
 
         if (DFx == 0) {
 
@@ -19,7 +15,7 @@ newton <- function(F, DF, x0, n = 10, TOL = 1.e-5) {
 
         }
 
-        x <- x - (Fx/DFx)
+        x <- x - (Fx / DFx)
 
 
         if (is.nan(x) || is.infinite(x)) {
@@ -29,7 +25,7 @@ newton <- function(F, DF, x0, n = 10, TOL = 1.e-5) {
 
     }
 
-    if (abs(feval(F, x)) >= TOL) {
+    if (abs(f(x)) >= TOL) {
         warning("Tolerance not achieved.", call. = FALSE)
 
     }

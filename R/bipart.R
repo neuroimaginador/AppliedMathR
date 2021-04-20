@@ -23,24 +23,30 @@ bipart <- function(F, a, b, n) {
         return(x)
     }
 
-    for (k in 1:n) {
+    if (n > 0) {
 
-        FX <- feval(F, x)
 
-        if (FX == 0) {
-            return(x)
-        }
+        for (k in 1:n) {
 
-        if (FA * FX < 0) {
-            b <- x
-        } else {
-            a <- x
-            FA <- feval(F, a)
-        }  # (if)
+            FX <- feval(F, x)
 
-        x <- (a + b)/2
+            if (FX == 0) {
+                return(x)
+            }
 
-    }  # (for k)
+            if (FA * FX < 0) {
+                b <- x
+            } else {
+                a <- x
+                FA <- feval(F, a)
+            }  # (if)
+
+            x <- (a + b)/2
+
+        }  # (for k)
+
+    }
+
 
     # tol <- (b - a)/2
 
@@ -79,32 +85,33 @@ bipart_table <- function(F, a, b, n) {
         return(x)
     }
 
-    for (k in 1:n) {
+    if (n > 0)
+        for (k in 1:n) {
 
-        FX <- feval(F, x)
-        cota <- 0.5 * (b - a)
+            FX <- feval(F, x)
+            cota <- 0.5 * (b - a)
 
-        if (FX == 0) {
-            return(x)
-        }
+            if (FX == 0) {
+                return(x)
+            }
 
-        if (FA * FX < 0) {
-            b <- x
-        } else {
-            a <- x
-            FA <- feval(F, a)
-        }  # (if)
+            if (FA * FX < 0) {
+                b <- x
+            } else {
+                a <- x
+                FA <- feval(F, a)
+            }  # (if)
 
-        res <- rbind(res,
-                     data.frame(n = k - 1,
-                                x_n = x,
-                                `f(x_n)` = FX,
-                                I = paste0("[", a, ", ", b, "]"),
-                                CotaError = cota))
+            res <- rbind(res,
+                         data.frame(n = k - 1,
+                                    x_n = x,
+                                    `f(x_n)` = FX,
+                                    I = paste0("[", a, ", ", b, "]"),
+                                    CotaError = cota))
 
-        x <- (a + b)/2
+            x <- (a + b)/2
 
-    }  # (for k)
+        }  # (for k)
 
     # tol <- (b - a)/2
 
