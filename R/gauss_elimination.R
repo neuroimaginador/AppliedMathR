@@ -10,15 +10,7 @@ gauss_elimination <- function(...,
   C <- do.call(cbind, dots)
   ncols <- sapply(dots, ncol)
 
-  if (inherits(C, "matrix")) {
-
-    equals <- function(a, b) a == b
-
-  } else {
-
-    equals <- function(a, b) a %>% y_fn("Equals", b) %>% as_r()
-
-  }
+  equals <- function(a, b) a == b
 
   pivot <- match.arg(pivot)
 
@@ -28,7 +20,7 @@ gauss_elimination <- function(...,
   ind <- seq(n)
 
   step <- list(split_matrix(C, ncols))
-  msg <- ""#Initial matrix"
+  msg <- ""# Initial matrix"
 
   max_iter <- min(c(m, n))
   row <- 1

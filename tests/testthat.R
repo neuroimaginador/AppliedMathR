@@ -1,4 +1,4 @@
 library(testthat)
-library(numericoUMA)
+library(AppliedMathR)
 
-test_check("numericoUMA")
+test_check("AppliedMathR")

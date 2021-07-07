@@ -3,12 +3,15 @@ library(purrr)
 
 #' @export
 to_math <- function(x, env = parent.frame()) {
-  expr <- enexpr(x)
+
+  expr <- rlang::enexpr(x)
   # print(expr)
-  out <- eval_bare(expr, env_clone(env, latex_env(expr)))
+  out <- rlang::eval_bare(expr,
+                          rlang::env_clone(env, latex_env(expr)))
   # out <- eval_bare(expr, latex_env(expr))
   # print(out)
   latex(out)
+
 }
 
 latex <- function(x) structure(x, class = "advr_latex")
@@ -24,8 +27,8 @@ greek <- c(
   "xi", "Gamma", "Lambda", "Sigma", "Psi", "Delta", "Xi",
   "Upsilon", "Omega", "Theta", "Pi", "Phi"
 )
-greek_list <- set_names(paste0("\\", greek), greek)
-greek_env <- as_environment(greek_list)
+greek_list <- rlang::set_names(paste0("\\", greek), greek)
+greek_env <- rlang::as_environment(greek_list)
 
 latex_env <- function(expr) {
   greek_env
@@ -90,12 +93,12 @@ latex_env <- function(expr) {
 }
 
 unary_op <- function(left, right) {
-  new_function(
-    exprs(e1 = ),
-    expr(
+  rlang::new_function(
+    rlang::exprs(e1 = ),
+    rlang::expr(
       paste0(!!left, e1, !!right)
     ),
-    caller_env()
+    rlang::caller_env()
   )
 }
 
@@ -132,27 +135,27 @@ as_is_op <- function(op) {
 
   }
 
-  parent.env(environment(f)) <- caller_env()
+  parent.env(environment(f)) <- rlang::caller_env()
 
   return(f)
 
 }
 
 binary_op <- function(sep) {
-  new_function(
-    exprs(e1 = , e2 = ),
-    expr(
+  rlang::new_function(
+    rlang::exprs(e1 = , e2 = ),
+    rlang::expr(
       paste0("{", e1, "}",
              !!sep,
              "{", e2, "}")
     ),
-    caller_env()
+    rlang::caller_env()
   )
 }
 
 # Binary operators
-f_env <- child_env(
-  .parent = empty_env(),
+f_env <- rlang::child_env(
+  .parent = rlang::empty_env(),
   `+` = binary_op(" + "),
   `-` = as_is_op(" - "),
   # `*` = binary_op(" \\cdot "),
@@ -191,12 +194,15 @@ latex_env <- function(expr) {
 
   # Default symbols
   names <- all_names(expr)
-  symbol_env <- as_environment(set_names(names), parent = f_env)
+  symbol_env <- rlang::as_environment(rlang::set_names(names),
+                                      parent = f_env)
 
   # Known symbols
-  greek_env <- env_clone(greek_env, parent = symbol_env)
+  greek_env <- rlang::env_clone(greek_env,
+                                parent = symbol_env)
 
   greek_env
+
 }
 
 all_calls_rec <- function(x) {
@@ -215,9 +221,9 @@ all_calls <- function(x) {
 }
 
 unknown_op <- function(op) {
-  new_function(
-    exprs(... = ),
-    expr({
+  rlang::new_function(
+    rlang::exprs(... = ),
+    rlang::expr({
       contents <- paste(..., collapse = ", ")
       paste0(!!paste0("\\mathrm{", op, "}("), contents, ")")
     })
@@ -225,19 +231,24 @@ unknown_op <- function(op) {
 }
 
 latex_env <- function(expr) {
+
   calls <- all_calls(expr)
-  call_list <- map(rlang::set_names(calls), unknown_op)
-  call_env <- as_environment(call_list)
+  call_list <- purrr::map(rlang::set_names(calls), unknown_op)
+  call_env <- rlang::as_environment(call_list)
 
   # Known functions
-  f_env <- env_clone(f_env, call_env)
+  f_env <- rlang::env_clone(f_env, call_env)
 
   # Default symbols
   names <- all_names(expr)
-  symbol_env <- as_environment(rlang::set_names(names), parent = f_env)
+  symbol_env <- rlang::as_environment(rlang::set_names(names),
+                                      parent = f_env)
 
   # Known symbols
-  greek_env <- env_clone(greek_env, parent = symbol_env)
+  greek_env <- rlang::env_clone(greek_env,
+                                parent = symbol_env)
   greek_env
+
 }
 
+write_system

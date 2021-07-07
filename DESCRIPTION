@@ -8,6 +8,25 @@ Description: Routines for Applied Mathematics subjects developed at University o
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    fractional,
+    magrittr,
+    stringr,
+    knitr,
+    xfun,
+    pracma,
+    purrr,
+    rlang,
+    matlib,
+    numbers,
+    glue,
+    matlab,
+    pryr,
+    tikzDevice
 Suggests: 
-    testthat
+    testthat,
+    Deriv,
+    Rlinsolve,
+    optR,
+    sfsmisc
 RoxygenNote: 7.1.1

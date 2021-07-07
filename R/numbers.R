@@ -75,7 +75,6 @@ Number <- R6::R6Class(
 
       }
 
-
       return(invisible(self))
 
     },
@@ -307,10 +306,11 @@ Number <- R6::R6Class(
 
       if (den != "1") {
 
-        N <- max(c(str_length(num), str_length(den)))
-        num <- str_pad(num, width = N, side = "both")
-        den <- str_pad(den, width = N, side = "both")
-        line <- str_flatten(rep("-", N))
+        N <- max(c(stringr::str_length(num),
+                   stringr::str_length(den)))
+        num <- stringr::str_pad(num, width = N, side = "both")
+        den <- stringr::str_pad(den, width = N, side = "both")
+        line <- stringr::str_flatten(rep("-", N))
 
         # den <- paste0(" / (", den, ")")
         den <- paste0("\n", line, "\n", den)
@@ -440,10 +440,10 @@ Number <- R6::R6Class(
                            ifelse(my_int == 1, "", "-"),
                            as.character(my_int))
 
-      op <- ifelse((abs(my_int) != 1) && str_length(my_root) > 0,
+      op <- ifelse((abs(my_int) != 1) && stringr::str_length(my_root) > 0,
                    prod_str, "")
       number <- glue::glue("{my_int_str}{op}{my_root}")
-      if (str_length(number) == 0) {
+      if (stringr::str_length(number) == 0) {
 
         number <- "1"
 
@@ -640,8 +640,8 @@ Vector <- R6::R6Class(
                         rdeco = "\\right)") {
 
       str <- c(ldeco, "\\begin{array}{c}",
-               sapply(private$components, function(r) r$to_latex()) %>% str_flatten("\\\\\n"),
-               "\\end{array}", rdeco) %>% str_flatten("\n")
+               sapply(private$components, function(r) r$to_latex()) %>% stringr::str_flatten("\\\\\n"),
+               "\\end{array}", rdeco) %>% stringr::str_flatten("\n")
 
       return(str)
 

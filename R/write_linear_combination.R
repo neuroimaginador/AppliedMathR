@@ -19,7 +19,7 @@ write_linear_combination <- function(M, vars) {
 
   }
 
-  str <- str %>% str_flatten()
+  str <- str %>% stringr::str_flatten()
 
   return(str)
 

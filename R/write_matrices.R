@@ -57,7 +57,7 @@ glue_matrices <- function(...,
 
   }
 
-  if ((length(sep) == 1) && (str_length(sep) > 0)) {
+  if ((length(sep) == 1) && (stringr::str_length(sep) > 0)) {
 
     sep <- rep(sep, length(matrices) - 1)
 
@@ -77,7 +77,9 @@ glue_matrices <- function(...,
   sep[sep = "@{}"] <- ""
 
   # Column width
-  col_width <- apply(M, 2, function(m) max(str_length(m))) + 2
+  col_width <- apply(M, 2,
+                     function(m)
+                       max(stringr::str_length(m))) + 2
 
   # Some matrices can be collapsed into one column
   collapse <- rep(FALSE, length(matrices))
@@ -89,7 +91,7 @@ glue_matrices <- function(...,
   # length == ncol(M) -> a format for each column
   if (length(format) == 1) {
 
-    if (str_length(format) == 1) {
+    if (stringr::str_length(format) == 1) {
 
       alignment <- lapply(seq_along(matrices),
                           function(i)
@@ -116,13 +118,13 @@ glue_matrices <- function(...,
 
       fi <- format[i]
 
-      if (str_length(fi) == ncols[i]) {
+      if (stringr::str_length(fi) == ncols[i]) {
 
-        alignment[[i]] <- str_split(fi, "")[[1]]
+        alignment[[i]] <- stringr::str_split(fi, "")[[1]]
         next
 
       }
-      if (str_length(fi) == 1) {
+      if (stringr::str_length(fi) == 1) {
 
         if (fi %in% c("c", "l", "r")) {
 
@@ -154,9 +156,9 @@ glue_matrices <- function(...,
   }
 
   align_sep <- alignment %>%
-    lapply(str_flatten) %>%
+    lapply(stringr::str_flatten) %>%
     str_alternate(sep) %>%
-    str_flatten()
+    stringr::str_flatten()
 
   alignment <- unlist(alignment)
 
@@ -167,13 +169,14 @@ glue_matrices <- function(...,
       seq_along(ncols),
       function(m) {
 
-        str_flatten(rep("%s ", ncols[m]))
+        stringr::str_flatten(rep("%s ", ncols[m]))
 
-      }) %>% str_alternate(sep) %>% str_flatten()
+      }) %>% str_alternate(sep) %>% stringr::str_flatten()
 
   } else {
 
-    fmt_row <- rep("%s", sum(ncols)) %>% str_flatten(" & ")
+    fmt_row <- rep("%s", sum(ncols)) %>%
+      stringr::str_flatten(" & ")
 
   }
 
@@ -192,7 +195,7 @@ glue_matrices <- function(...,
         seq(sum(ncols)),
         function(j) {
 
-          str_pad(M[i, j],
+          stringr::str_pad(M[i, j],
                   width = col_width[j],
                   side = alignment[j])
 
@@ -214,33 +217,33 @@ glue_matrices <- function(...,
   body <- sapply(M_str, write_row)
   if (!latex) {
 
-    body <- body %>% str_flatten("\n")
+    body <- body %>% stringr::str_flatten("\n")
 
   } else {
 
-    body <- body %>% str_flatten("\\\\\n")
+    body <- body %>% stringr::str_flatten("\\\\\n")
 
   }
 
   # Header (includes left and right decoration)
   if (latex) {
 
-    if (str_length(ldeco) > 0) {
+    if (stringr::str_length(ldeco) > 0) {
 
-      ldeco <- str_flatten(c(ldeco, "\n"))
+      ldeco <- stringr::str_flatten(c(ldeco, "\n"))
 
     }
 
-    if (str_length(rdeco) > 0) {
+    if (stringr::str_length(rdeco) > 0) {
 
-      rdeco <- str_flatten(c(rdeco, "\n"))
+      rdeco <- stringr::str_flatten(c(rdeco, "\n"))
 
     }
 
     header <- paste0(#"\\ensuremath{\n",
                      ldeco,
                      "\\begin{array}{",
-                     str_flatten(align_sep), "}",
+                     stringr::str_flatten(align_sep), "}",
                      "\n",
                      collapse = "")
 
@@ -258,7 +261,7 @@ glue_matrices <- function(...,
 
   output <- paste0(header, body, footer)
   output <- output %>%
-    str_replace_all(pattern = "\n+",
+    stringr::str_replace_all(pattern = "\n+",
                     replacement = "\n")
 
   return(output)
@@ -282,7 +285,7 @@ glue_latex <- function(...) {
   c("\\[",
     glue::glue(...,
              .open = "[", .close = "]",
-             .sep = ""),
+             .sep = " "),
     "\\]")
 
 }

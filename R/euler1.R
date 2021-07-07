@@ -12,7 +12,7 @@ euler1 <- function(F, xs, y0, n) {
     x <- seq(x0, xf, by = h)
 
 
-    y <- zeros(size(y0, 1), n + 1)
+    y <- zeros(pracma::size(y0, 1), n + 1)
 
     y[, 1] <- y0
 

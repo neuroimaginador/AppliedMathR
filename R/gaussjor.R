@@ -1,9 +1,9 @@
 #' @export
 gaussjor <- function(A, B) {
 
-    c(m, n) %<-% size(A)
+    c(m, n) %<-% pracma::size(A)
 
-    c(m1, n1) %<-% size(B)
+    c(m1, n1) %<-% pracma::size(B)
 
     if (m != n) {
 

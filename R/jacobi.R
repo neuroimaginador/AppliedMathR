@@ -1,5 +1,6 @@
 #' @export
-jacobi <- function(A, b, n = 100, x0 = matlab::zeros(size(b))) {
+jacobi <- function(A, b, n = 100,
+                   x0 = pracma::zeros(pracma::size(b))) {
 
     D <- diag(diag(A))
     L <- A
@@ -18,7 +19,7 @@ jacobi <- function(A, b, n = 100, x0 = matlab::zeros(size(b))) {
 
     }
     res <- A %*% x - b
-    rad <- max(abs(eig(BJ)))
+    rad <- max(abs(pracma::eig(BJ)))
 
     return(list(x = x, res = res, rad = rad, BJ = BJ, CJ = CJ))
 }

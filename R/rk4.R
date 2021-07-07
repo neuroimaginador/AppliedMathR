@@ -12,7 +12,7 @@ rk4 <- function(F, xs, y0, n) {
     x <- seq(x0, xf, by = h)
 
 
-    y <- zeros(size(y0, 1), n + 1)
+    y <- pracma::zeros(pracma::size(y0, 1), n + 1)
 
     y[, 1] <- y0
 

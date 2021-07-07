@@ -1,7 +1,7 @@
 #' @export
 solqr <- function(A, b) {
 
-    c(m, n) %<-% size(A)
+    c(m, n) %<-% pracma::size(A)
 
     gs <- qr(A)
     Q <- qr.Q(gs)

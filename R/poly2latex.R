@@ -25,10 +25,12 @@ poly2latex <- function(p, var = "x",
   ind_term <- p_str[length(p)]
   ind_var <- ifelse(is_matrix, "I", "")
 
-  terms <- c(glue::glue("[with_power][var]^{[seq(n, 2)]}",
-                       .open = "[", .close = "]"),
-             glue::glue("{with_x}{var}"),
-             glue::glue("{ind_term}{ind_var}"))
+  terms <- c(
+    ifelse(n > 1,
+           glue::glue("{with_power}{var}^{{{seq(n, 2)}}}"),
+           ""),
+    glue::glue("{with_x}{var}"),
+    glue::glue("{ind_term}{ind_var}"))
 
   T1 <- terms[1]
   Trem <- terms[-1]
@@ -38,7 +40,8 @@ poly2latex <- function(p, var = "x",
 
   terms <- c(T1, Trem)
 
-  polynomial <- terms[p != 0] %>% str_flatten()
+  polynomial <- terms[p != 0] %>%
+    stringr::str_flatten()
 
   return(polynomial)
 

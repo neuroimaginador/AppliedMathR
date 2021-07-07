@@ -1,6 +1,6 @@
 #' @export
 #' @importFrom pracma zeros conv
-newtondi <- function(x, y) {
+newtondi <- function(x, y, decimals = 0) {
 
     m <- length(x)
 
@@ -15,6 +15,9 @@ newtondi <- function(x, y) {
             d[l, k] <- (d[l + 1, k - 1] - d[l, k - 1])/(x[l +
                                                               k - 1] - x[l])
 
+            if (decimals > 0)
+                d[l, k] <- d[l, k] %>% round(digits = decimals)
+
         }
 
     }
@@ -26,6 +29,10 @@ newtondi <- function(x, y) {
     for (k in seq(m - 1, 1, by = -1)) {
 
         p <- pracma::conv(p, c(1, -x[k]))
+
+        if (decimals > 0)
+            p <- p %>% round(digits = decimals)
+
 
         p[length(p)] <- p[length(p)] + coef[k]
 
@@ -36,7 +43,7 @@ newtondi <- function(x, y) {
 
 #' @export
 #' @importFrom pracma zeros
-newtondi_table <- function(x, y) {
+newtondi_table <- function(x, y, decimals = 0) {
 
     m <- length(x)
 
@@ -51,6 +58,11 @@ newtondi_table <- function(x, y) {
             d[l, k] <- (d[l + 1, k - 1] - d[l, k - 1])/(x[l +
                                                               k - 1] - x[l])
 
+            if (decimals > 0)
+                d[l, k] <- d[l, k] %>%
+                    round(digits = decimals)
+
+
         }
 
     }
@@ -60,7 +72,7 @@ newtondi_table <- function(x, y) {
 }
 
 #' @export
-newtondi2poly <- function(x, d) {
+newtondi2poly <- function(x, d, decimals = 0) {
 
     m <- length(x)
 
@@ -71,6 +83,9 @@ newtondi2poly <- function(x, d) {
     for (k in seq(m - 1, 1, by = -1)) {
 
         p <- pracma::conv(p, c(1, -x[k]))
+
+        if (decimals > 0)
+            p <- p %>% round(digits = decimals)
 
         p[length(p)] <- p[length(p)] + coef[k]
 
@@ -162,10 +177,16 @@ newtondi_print <- function(x, d, var = "x",
 }
 
 #' @export
-newtondi_tablelatex <- function(x, d, vars = c("x", "y")) {
+newtondi_tablelatex <- function(x, d, fractions = TRUE, vars = c("x", "y")) {
 
     n <- nrow(d)
-    d <- to_fraction(d, latex = TRUE)
+
+    if (fractions) {
+
+        d <- to_fraction(d, latex = TRUE)
+
+    }
+
 
     d[] <- paste0("$", d, "$")
 

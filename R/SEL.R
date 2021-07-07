@@ -110,7 +110,7 @@ rSystem <- function(n,
 
     if (ensure_determined) {
 
-      if (Det(A) != 0) break
+      if (matlib::Det(A) != 0) break
 
     }
 
@@ -316,7 +316,7 @@ write_system <- function(A, b,
 
   } else {
 
-    if ((str_length(format) != 1) & (str_length(format) != m) & latex) {
+    if ((stringr::str_length(format) != 1) & (stringr::str_length(format) != m) & latex) {
 
       stop("Bad formatting.", call. = FALSE)
 
@@ -406,7 +406,7 @@ write_system <- function(A, b,
         vr <- rep("", m)
         vr[idx] <- vc
 
-        if (str_length(format) == 1) {
+        if (stringr::str_length(format) == 1) {
 
           row <- stringr::str_flatten(paste0(vr, unk),
                                       collapse = "")
@@ -436,7 +436,7 @@ write_system <- function(A, b,
 
   # cat(str, sep = "\n")
 
-  return(str_flatten(str, collapse = "\n"))
+  return(stringr::str_flatten(str, collapse = "\n"))
 
 }
 
@@ -453,6 +453,6 @@ vectors_to_latex <- function(M) {
 
          })
 
-  str_flatten(str, collapse = ", ")
+  stringr::str_flatten(str, collapse = ", ")
 
 }

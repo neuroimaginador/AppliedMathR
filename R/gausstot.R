@@ -1,8 +1,8 @@
 #' @export
 gausstot <- function(A, B) {
 
-    c(m, n) %<-% size(A)
-    c(m1, n1) %<-% size(B)
+    c(m, n) %<-% pracma::size(A)
+    c(m1, n1) %<-% pracma::size(B)
 
     e <- 0
     if (m != n) {

@@ -1,5 +1,6 @@
 #' @export
-gseidel <- function(A, b, n = 100, x0 = matlab::zeros(size(b))) {
+gseidel <- function(A, b, n = 100,
+                    x0 = pracma::zeros(pracma::size(b))) {
 
 
     D <- diag(diag(A))
@@ -20,7 +21,7 @@ gseidel <- function(A, b, n = 100, x0 = matlab::zeros(size(b))) {
     }
 
     res <- A %*% x - b
-    rad <- max(abs(eig(BGS)))
+    rad <- max(abs(pracma::eig(BGS)))
 
     return(list(x = x, res = res, rad = rad, BGS = BGS,
         CGS = CGS))

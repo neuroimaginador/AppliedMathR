@@ -1,8 +1,8 @@
 #' @export
 sustreg <- function(A, b) {
 
-  c(m, n) %<-% size(A)
-  c(m1, n1) %<-% size(b)
+  c(m, n) %<-% pracma::size(A)
+  c(m1, n1) %<-% pracma::size(b)
 
     if (m != n) {
         stop("Bad dimensions.", call. = FALSE)
@@ -11,7 +11,7 @@ sustreg <- function(A, b) {
         stop("Bad dimensions.", call. = FALSE)
     }
 
-    x <- matlab::zeros(size(b))
+    x <- matlab::zeros(pracma::size(b))
     for (k in seq(n, 1, by = -1)) {
 
         x[k, ] <- b[k, ]/A[k, k]
