@@ -14,13 +14,18 @@ theorem_engine <- function(options) {
     } else {
 
       attribution <- ""
+
     }
 
-    text <- stringr::str_split(text, "\n")[[1]]
+    text <- stringr::str_split(text, "\n") %>%
+      unlist() %>%
+      stringr::str_flatten("\n")
+
+    # text <- stringr::str_split(text, "\n")[[1]]
     # text <- glue::glue("\n> {text}") %>%
     #   stringr::str_flatten("\n")
 
-    out <- glue::glue("\n<p class = 'theorem'{attribution}>\n {text}\n</p>") %>%
+    out <- glue::glue("\n<div class = 'theor'{attribution}>\n {text}\n</div>") %>%
       stringr::str_flatten("\n")
 
 
@@ -57,6 +62,7 @@ definition_engine <- function(options) {
 
   desc <- options$name
   text <- options$code
+  # message(text)
 
   if (knitr::is_html_output()) {
 
@@ -72,13 +78,16 @@ definition_engine <- function(options) {
 
     }
 
-    text <- stringr::str_split(text, "\n")[[1]]
+    text <- stringr::str_split(text, "\n") %>%
+      unlist() %>%
+      stringr::str_flatten("\n")
+    message(text)
     # text <- glue::glue("\n> {text}") %>%
     #   stringr::str_flatten("\n")
     # out <- c(paste0(desc, " ", text), "\n") %>%
     #   stringr::str_flatten("\n")
 
-    out <- glue::glue("\n<p class = 'definition'{entity}>\n {text}\n</p>") %>%
+    out <- glue::glue("\n<div class = 'defin'{entity}>\n {text}\n</div>") %>%
       stringr::str_flatten("\n")
 
 
@@ -103,6 +112,8 @@ definition_engine <- function(options) {
 
   options$echo <- FALSE
   options$results <- "asis"
+  options$engine <- "markdown"
+
   knitr::engine_output(options,
                        options$code,
                        out)
