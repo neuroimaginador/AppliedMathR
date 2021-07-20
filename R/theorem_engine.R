@@ -7,16 +7,25 @@ theorem_engine <- function(options) {
 
     if (stringr::str_length(desc) > 0) {
 
-      desc <- paste0("\n> __", desc, "__:\n")
+      # desc <- paste0("\n> __", desc, "__:\n")
+      attribution <- paste0(" data-attribution = '",
+                            desc, "' ")
 
+    } else {
+
+      attribution <- ""
     }
 
     text <- stringr::str_split(text, "\n")[[1]]
-    text <- glue::glue("\n> {text}") %>%
+    # text <- glue::glue("\n> {text}") %>%
+    #   stringr::str_flatten("\n")
+
+    out <- glue::glue("\n<p class = 'theorem'{attribution}>\n {text}\n</p>") %>%
       stringr::str_flatten("\n")
 
-    out <- c(paste0(desc, " ", text), "\n") %>%
-      stringr::str_flatten("\n")
+
+    # out <- c(paste0(desc, " ", text), "\n") %>%
+    #   stringr::str_flatten("\n")
 
     # cat(desc, text, "\n\n")
 
@@ -53,16 +62,26 @@ definition_engine <- function(options) {
 
     if (stringr::str_length(desc) > 0) {
 
-      desc <- paste0("\n> __", desc, "__:\n")
+      # desc <- paste0("\n> __", desc, "__:\n")
+      entity <- paste0(" entity = '",
+                       desc, "' ")
+
+    } else {
+
+      entity <- ""
 
     }
 
     text <- stringr::str_split(text, "\n")[[1]]
-    text <- glue::glue("\n> {text}") %>%
+    # text <- glue::glue("\n> {text}") %>%
+    #   stringr::str_flatten("\n")
+    # out <- c(paste0(desc, " ", text), "\n") %>%
+    #   stringr::str_flatten("\n")
+
+    out <- glue::glue("\n<p class = 'definition'{entity}>\n {text}\n</p>") %>%
       stringr::str_flatten("\n")
 
-    out <- c(paste0(desc, " ", text), "\n") %>%
-      stringr::str_flatten("\n")
+
 
     # cat(desc, text, "\n\n")
 

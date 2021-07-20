@@ -64,17 +64,40 @@ rtikz <- function(options) {
 
       outfile <- tinytex::pdflatex(filename)
 
-      bitmap <- pdftools::pdf_render_page(outfile,
-                                page = 1,
-                                dpi = 300)
-      png::writePNG(bitmap, paste0(outfile, ".png"))
-
-      # pdftools::pdf_convert(outfile, format = "png",
-      #                       dpi = 300, verbose = FALSE)
-      outfile <- paste0(outfile, ".png")
-      # outfile <- knitr::include_graphics(outfile)
-      out <- paste0("![](", outfile, ")")
+      # print(filename)
       #
+      # outf <- tinytex::latexmk(filename,
+      #                          "latex")
+      #
+      # fig = knitr::fig_path(".dvi", options)
+      # dir.create(dirname(fig), recursive = TRUE, showWarnings = FALSE)
+      # file.rename(outf, fig)
+      # fig2 <- xfun::with_ext(fig, ".svg")
+      # # if (to_svg) {
+      # if (Sys.which("dvisvgm") == "")
+      #   tinytex::tlmgr_install("dvisvgm")
+      # if (system2("dvisvgm", c("-o", shQuote(fig2), fig)) !=
+      #     0)
+      #   stop("Failed to compile ", fig, " to ", fig2)
+      # # }
+      # fig <- fig2
+      # options$fig.num <- 1L
+      # options$fig.cur <- 1L
+      # extra = knitr:::run_hook_plot(fig,
+      #                              options)
+      # options$engine <- "tex"
+      # knitr::engine_output(options, options$code, "", extra)
+
+      bitmap <- pdftools::pdf_render_page(
+        outfile,
+        page = 1,
+        dpi = 300)
+      png::writePNG(
+        bitmap,
+        paste0(outfile, ".png"))
+
+      outfile <- paste0(outfile, ".png")
+      out <- paste0("![](", outfile, ")")
       options$echo <- FALSE
       options$results <- "asis"
       knitr::engine_output(options,
