@@ -137,3 +137,61 @@ md2latex <- function(text) {
   }
 
 }
+
+#' @export
+begin_example <- function(desc = "") {
+
+  if (knitr::is_html_output()) {
+
+    if (stringr::str_length(desc) > 0) {
+
+      entity <- paste0(" entity = '",
+                       desc, "' ")
+
+    } else {
+
+      entity <- ""
+
+    }
+
+    out <- glue::glue("\n<div class = 'examp'{entity}>\n") %>%
+      stringr::str_flatten("\n")
+
+  } else {
+
+    if (stringr::str_length(desc) > 0) {
+
+      desc <- paste0("[", desc, "]")
+
+    }
+
+    out <- glue::glue(
+      "\\vspace*{2mm}\n\\begin{examp}#desc#\n",
+      .open = "#", .close = "#"
+    )
+
+  }
+
+  # cat(out)
+
+  return(invisible(out))
+
+}
+
+#' @export
+end_example <- function() {
+
+  if (knitr::is_html_output()) {
+
+    out <- "\n</div>\n"
+
+  } else {
+
+    out <- "\n\\end{examp}\n\n"
+
+  }
+
+  # cat(out)
+  return(invisible(out))
+
+}
