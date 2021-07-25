@@ -8,6 +8,6 @@
 #'
 polyfun <- function(p) {
 
-  function(x) pracma::polyval(p, x)
+  function(x) sapply(x, function(xx) pracma::polyval(p, xx))
 
 }

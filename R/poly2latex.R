@@ -26,9 +26,8 @@ poly2latex <- function(p, var = "x",
   ind_var <- ifelse(is_matrix, "I", "")
 
   terms <- c(
-    ifelse(n > 1,
-           glue::glue("{with_power}{var}^{{{seq(n, 2)}}}"),
-           ""),
+    if(n > 1)
+      glue::glue("{with_power}{var}^{{{seq(n, 2)}}}") else "",
     glue::glue("{with_x}{var}"),
     glue::glue("{ind_term}{ind_var}"))
 
