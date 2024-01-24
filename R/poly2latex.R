@@ -13,8 +13,8 @@ poly2latex <- function(p, var = "x",
 
   }
 
-  idx1 <- which(p[-length(p)] == 1)
-  idx_1 <- which(p[-length(p)] == -1)
+  idx1 <- which(abs(p[-length(p)] - 1) < 1.e-8)
+  idx_1 <- which(abs(p[-length(p)] + 1) < 1.e-8)
 
   p_str[idx1] <- ""
   p_str[idx_1] <- "-"
@@ -26,8 +26,8 @@ poly2latex <- function(p, var = "x",
   ind_var <- ifelse(is_matrix, "I", "")
 
   terms <- c(
-    if(n > 1)
-      glue::glue("{with_power}{var}^{{{seq(n, 2)}}}") else "",
+    if (n > 1)
+      glue::glue("{with_power}{var}^{{{seq(n, 2)}}}") else NULL,
     glue::glue("{with_x}{var}"),
     glue::glue("{ind_term}{ind_var}"))
 
@@ -39,7 +39,7 @@ poly2latex <- function(p, var = "x",
 
   terms <- c(T1, Trem)
 
-  polynomial <- terms[p != 0] %>%
+  polynomial <- terms[abs(p) > 1.e-8] %>%
     stringr::str_flatten()
 
   return(polynomial)

@@ -1,6 +1,6 @@
 #' @export
 jacobi <- function(A, b, n = 100,
-                   x0 = pracma::zeros(pracma::size(b))) {
+                   x0 = 0 * b) {
 
     D <- diag(diag(A))
     L <- A
