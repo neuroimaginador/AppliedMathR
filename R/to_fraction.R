@@ -22,7 +22,9 @@ to_fraction <- function(A, latex = FALSE) {
   idx_neg <- which((num < 0) & (den != 1))
   num <- abs(num)
 
-  A_chr[idx] <- paste0("\\frac{", num[idx], "}{", den[idx], "}")
+  A_chr[idx] <- glue::glue("{{\\left.{{  {num[idx]}}}\\right/{{ {den[idx]}}}}}")
+
+  # A_chr[idx] <- paste0("\\sfrac{", num[idx], "}{", den[idx], "}")
   A_chr[idx_neg] <- paste0("- ", A_chr[idx_neg])
 
   return(A_chr)

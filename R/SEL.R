@@ -423,6 +423,25 @@ write_system <- function(A, b,
 
       }
 
+    } else {
+
+      row <- "0"
+
+      if (latex) {
+
+        row <- c(rep(" ", m - 1), row) |>
+          stringr::str_flatten(" & ")
+
+        row <- paste0(row, rhs[i], "\\\\")
+
+      } else {
+
+        row <- paste0(row, rhs[i])
+
+      }
+
+      str <- c(str, row)
+
     }
 
   }

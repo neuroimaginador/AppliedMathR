@@ -15,6 +15,7 @@ to_math <- function(x, env = parent.frame()) {
 }
 
 latex <- function(x) structure(x, class = "advr_latex")
+#' @export
 print.advr_latex <- function(x) {
   cat("<LATEX> ", x, "\n", sep = "")
 }
